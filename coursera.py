@@ -3,7 +3,6 @@ from bs4 import BeautifulSoup
 from openpyxl import Workbook
 import requests
 import random
-from re import compile
 
 def get_courses_list(number_of_courses):
 
@@ -33,7 +32,6 @@ def get_course_info(course_slug):
         content = BeautifulSoup(html_content, 'html.parser')
         name_course = content('h1', class_='title display-3-text')[0].get_text()
         language_course = content('div', class_='rc-Language')[0].get_text()
-#        start_date = content.find(string=compile("Start[se]*"))
         start_date = content('div', class_='startdate rc-StartDateString caption-text')[0].get_text()
         duration_of_course = len(content('div', class_='week-heading body-2-text'))
 
