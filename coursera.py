@@ -24,6 +24,7 @@ def get_courses_list(number_of_courses):
         course_slug.append(full_list_courses[course_index])
     return course_slug
 
+
 def get_course_info(course_slug):
     courses_info_list = []
 
@@ -32,8 +33,9 @@ def get_course_info(course_slug):
         content = BeautifulSoup(html_content, 'html.parser')
         name_course = content('h1', class_='title display-3-text')[0].get_text()
         language_course = content('div', class_='rc-Language')[0].get_text()
-        start_date = content.find(string=compile("Start[se]*"))
-        duration_of_course = str(len(content('div', class_='week-heading body-2-text')))
+#        start_date = content.find(string=compile("Start[se]*"))
+        start_date = content('div', class_='startdate rc-StartDateString caption-text')[0].get_text()
+        duration_of_course = len(content('div', class_='week-heading body-2-text'))
 
         try:
             rating_course = content('div', class_='ratings-text headline-2-text')[0].get_text()
@@ -55,22 +57,24 @@ def get_head_info(name='Course name',
     return head_info_list
 
 
-def output_courses_info_to_xlsx(filepath, courses_info_list,
-                                head_info_list, number_of_courses):
+def output_courses_info_to_xlsx(filepath,
+                                courses_info_list,
+                                head_info_list,
+                                number_of_courses):
     work_book = Workbook()
     work_sheet = work_book.create_sheet()
     work_sheet.append(head_info_list)
 
-    for row_course in range(number_of_courses):
-        for course in courses_info_list:
-            work_sheet.append(course)
+    for course in courses_info_list:
+        print(course)
+        work_sheet.append(course)
 
-    work_book.save('/home/kento/devman/10_coursera/file.xlsx')
+    work_book.save(filepath)
 
 
 if __name__ == '__main__':
-    filepath = '/home/kento/devman/10_coursera/file.xlsx'
-    number_of_courses = 3
+    filepath = 'courses_info.xlsx'
+    number_of_courses = 20
     course_slug = get_courses_list(number_of_courses)
     courses_info_list = get_course_info(course_slug)
     head_info_list = get_head_info()
