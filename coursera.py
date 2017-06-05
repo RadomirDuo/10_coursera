@@ -59,6 +59,7 @@ def output_courses_info_to_xlsx(filepath, courses_info_list,
                                 head_info_list, number_of_courses):
     work_book = Workbook()
     work_sheet = work_book.create_sheet()
+    work_sheet.append(head_info_list)
 
     for row_course in range(number_of_courses):
         for course in courses_info_list:
@@ -71,9 +72,6 @@ if __name__ == '__main__':
     filepath = '/home/kento/devman/10_coursera/file.xlsx'
     number_of_courses = 3
     course_slug = get_courses_list(number_of_courses)
-    print(course_slug)
-    for k in get_course_info(course_slug):
-        print(k)
     courses_info_list = get_course_info(course_slug)
     head_info_list = get_head_info()
     output_courses_info_to_xlsx(filepath, courses_info_list, head_info_list, number_of_courses)
